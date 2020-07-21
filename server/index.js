@@ -1,6 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('../database/index.js');
+const { getReposByUsername } = require('../helpers/github.js');
 
 let app = express();
 
@@ -15,9 +16,12 @@ app.post('/repos', function (req, res) {
   // save the repo information in the database
   console.log('request body', req.body.username);
 
-  //
+  getReposByUsername(req.body.username, (resData) => {
+    console.log('AXIOS RESPONSE', resData.data);
+    mongoose.save(resData.data);
+  });
 
-
+  //post data to database
 
   res.sendStatus(200);
 });
