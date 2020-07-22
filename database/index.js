@@ -1,10 +1,10 @@
 const mongoose = require('mongoose');
 mongoose.connect('mongodb://localhost/fetcher')
-.then(()=> {
-  console.log('mongoose is connected');
-})
+  .then(() => {
+    console.log('mongoose is connected');
+  })
 
-let repoSchema = mongoose.Schema({
+const repoSchema = mongoose.Schema({
   // TODO: your schema here!
   _id: Number,
   name: String,
@@ -15,12 +15,49 @@ let repoSchema = mongoose.Schema({
   html_url: String
 });
 
-let Repo = mongoose.model('Repo', repoSchema);
+const Repo = mongoose.model('Repo', repoSchema);
 
-let save = (/* TODO */) => {
+const save = (arr, callback) => {
   // TODO: Your code here
   // This function should save a repo or repos to
   // the MongoDB
+  let repoArray = cleanGitArry(arr);
+  Repo.insertMany(repoArray, { ordered: false })
+    .then((inserted) => {
+      callback(null, inserted);
+    })
+    .catch((failed) => {
+      callback(failed, null);
+    })
+
+}
+
+const cleanGitArry = (repoArray) => {
+  let repoDetailsArray = [];
+
+  for (let i = 0; i < repoArray.length; i++) {
+    repoDetailsArray.push({
+      '_id': repoArray[i].id,
+      'name': repoArray[i].name,
+      'full_name': repoArray[i].full_name,
+      'forks_count': repoArray[i].forks_count,
+      'owner_id': repoArray[i].owner.id,
+      'login': repoArray[i].owner.login,
+      'html_url': repoArray[i].html_url
+    });
+  }
+
+  return repoDetailsArray;
+}
+
+const queryRepos = (callback) => {
+
+  const query = Repo.find();
+  
+  query.sort({ 'forks_count': -1 }).limit(25).exec()
+    .then((data) => callback(data))
+
 }
 
 module.exports.save = save;
+module.exports.queryRepos = queryRepos;

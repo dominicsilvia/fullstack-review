@@ -13,6 +13,29 @@ class App extends React.Component {
 
   }
 
+  getRepos() {
+
+    $.ajax({
+      url: '/repos',
+      method: 'GET',
+      success: (results, status, obj) => {
+        this.setState({
+          repos: results
+        }, () => {console.log('setstate successful', results)})
+      },
+      error: function(errObj, errString, excpObj) {
+        console.log('GET ERROR', errString);
+      }
+
+    });
+  }
+
+  componentDidMount() {
+
+    this.getRepos();
+
+  }
+
   search (term) {
     console.log(`${term} was searched`);
     // TODO
@@ -28,8 +51,9 @@ class App extends React.Component {
       error: function(errObj, errString, excpObj) {
         console.log('ERROR:', errString);
       },
-      success: function(data, status, obj) {
-        console.log('SUCCESS', data);
+      success: (data, status, obj) => {
+        console.log('POST SUCCESS');
+        this.getRepos();
       }
     })
   }

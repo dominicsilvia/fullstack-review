@@ -14,21 +14,29 @@ app.post('/repos', function (req, res) {
   // This route should take the github username provided
   // and get the repo information from the github API, then
   // save the repo information in the database
-  console.log('request body', req.body.username);
+
 
   getReposByUsername(req.body.username, (resData) => {
-    console.log('AXIOS RESPONSE', resData.data);
-    mongoose.save(resData.data);
+    //console.log('AXIOS RESPONSE', resData.data);
+    mongoose.save(resData.data, (failures, successes) => {
+      console.log('insert successes', successes);
+      console.log('insert failures', failures);
+      res.sendStatus(200);
+    });
   });
 
   //post data to database
 
-  res.sendStatus(200);
+
 });
 
 app.get('/repos', function (req, res) {
   // TODO - your code here!
   // This route should send back the top 25 repos
+  mongoose.queryRepos((results) => {
+    console.log("results", results);
+    res.send(results);
+  });
 });
 
 let port = 1128;
