@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost/fetcher')
+//const { MONGODB_URI } = require('../config.js');
+mongoose.connect(process.env.MONGODB_URI)
   .then(() => {
     console.log('mongoose is connected');
   })
@@ -53,7 +54,7 @@ const cleanGitArry = (repoArray) => {
 const queryRepos = (callback) => {
 
   const query = Repo.find();
-  
+
   query.sort({ 'forks_count': -1 }).limit(25).exec()
     .then((data) => callback(data))
 
