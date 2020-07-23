@@ -21,7 +21,7 @@ class App extends React.Component {
       success: (results, status, obj) => {
         this.setState({
           repos: results
-        }, () => {console.log('setstate successful', results)})
+        });
       },
       error: function(errObj, errString, excpObj) {
         console.log('GET ERROR', errString);
@@ -52,7 +52,6 @@ class App extends React.Component {
         console.log('ERROR:', errString);
       },
       success: (results, status, obj) => {
-        console.log('POST SUCCESS');
         this.setState({
           repos: results
         });

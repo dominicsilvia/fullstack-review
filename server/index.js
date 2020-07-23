@@ -19,8 +19,8 @@ app.post('/repos', function (req, res) {
   getReposByUsername(req.body.username, (resData) => {
     //console.log('AXIOS RESPONSE', resData.data);
     mongoose.save(resData.data, (failures, successes) => {
-      console.log('insert successes', successes);
-      console.log('insert failures', failures);
+      // console.log('insert successes', successes);
+      // console.log('insert failures', failures);
       mongoose.queryRepos(results => res.send(results));
     });
   });
@@ -34,7 +34,7 @@ app.get('/repos', function (req, res) {
   // TODO - your code here!
   // This route should send back the top 25 repos
   mongoose.queryRepos((results) => {
-    console.log("results", results);
+
     res.send(results);
   });
 });
