@@ -14,8 +14,6 @@ class Search extends React.Component {
     console.log('event',e.target.value);
     this.setState({
       term: e.target.value
-    }, () => {
-      console.log('new state', this.state)
     });
   }
 
@@ -34,4 +32,3 @@ class Search extends React.Component {
 
 export default Search;
 
-// value={this.state.terms}

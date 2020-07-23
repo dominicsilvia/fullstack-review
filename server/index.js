@@ -21,7 +21,7 @@ app.post('/repos', function (req, res) {
     mongoose.save(resData.data, (failures, successes) => {
       console.log('insert successes', successes);
       console.log('insert failures', failures);
-      res.sendStatus(200);
+      mongoose.queryRepos(results => res.send(results));
     });
   });
 

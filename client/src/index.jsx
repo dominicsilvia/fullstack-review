@@ -51,11 +51,13 @@ class App extends React.Component {
       error: function(errObj, errString, excpObj) {
         console.log('ERROR:', errString);
       },
-      success: (data, status, obj) => {
+      success: (results, status, obj) => {
         console.log('POST SUCCESS');
-        this.getRepos();
+        this.setState({
+          repos: results
+        });
       }
-    })
+    });
   }
 
   render () {
