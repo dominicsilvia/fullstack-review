@@ -7,7 +7,7 @@ const RepoListItem = ({repo}) => {
   return (
    <tr>
      <td>{login}</td>
-     <td><a href={html_url}>{name}</a></td>
+     <td><a href={html_url} target="_blank">{name}</a></td>
      <td>{forks_count}</td>
    </tr>
   )

@@ -1,6 +1,13 @@
 const mongoose = require('mongoose');
-//const { MONGODB_URI } = require('../config.js');
-mongoose.connect(process.env.MONGODB_URI)
+const { MONGODB_URI } = require('../config.js');
+
+let connectionURI = process.env.MONGODB_URI;
+
+if (connectionURI == null || connectionURI == "") {
+  connectionURI = MONGODB_URI;
+}
+
+mongoose.connect(connectionURI)
   .then(() => {
     console.log('mongoose is connected');
   })
